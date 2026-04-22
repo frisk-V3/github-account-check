@@ -1,0 +1,29 @@
+name: Build DialogueFlow-Editor
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.3.3
+
+      - name: Build main.js
+        # hxml内で出力名が定義されているならこのままでOK
+        # もしコマンドで上書きするなら haxe build.hxml -js main.js
+        run: haxe build.hxml
+
+      - name: Upload main.js artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: main.js
+          path: main.js
