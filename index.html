@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub User Viewer</title>
+</head>
+<body>
+    <!-- ユーザー名入力 -->
+    <h1>GitHub アカウント情報ビューア</h1>
+    <p>
+        <label for="username">ユーザー名: </label>
+        <input id="username" type="text" value="frisk-scratch">
+        <button id="load">読み込む</button>
+    </p>
+
+    <!-- 結果表示エリア（Haxe から innerHTML で書き換える） -->
+    <div id="result">
+        <!-- ここに Haxe の displayUser が HTML を流し込む -->
+    </div>
+
+    <!-- Haxe でコンパイルした JS を読み込む -->
+    <script src="main.js"></script>
+
+    <!-- 入力欄と Haxe 側をつなぐための JS（超ミニマル） -->
+    <script>
+        // Haxe 側に Main.fetchUser(username) がある前提
+        document.getElementById("load").onclick = function () {
+            var name = document.getElementById("username").value;
+            if (name && typeof Main != "undefined" && Main.fetchUser) {
+                Main.fetchUser(name);
+            }
+        };
+    </script>
+</body>
+</html>
