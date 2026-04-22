@@ -14,14 +14,12 @@ typedef GitHubUser = {
 
 class Main {
     static function main() {
-        var username = "frisk-scratch"; // ← 調べたいアカウント
-        fetchUser(username);
+        // 最初は何も表示しない
     }
 
-    static function fetchUser(username:String) {
+    public static function fetchUser(username:String) {
         var url = 'https://api.github.com/users/$username';
         var req = new XMLHttpRequest();
-
         req.open("GET", url, true);
 
         req.onload = function(_) {
@@ -29,23 +27,23 @@ class Main {
                 var data:GitHubUser = haxe.Json.parse(req.responseText);
                 displayUser(data);
             } else {
-                Browser.console.error("GitHub API error: " + req.status);
+                Browser.document.getElementById("result").innerHTML =
+                    "<p>ユーザーが見つかりませんでした。</p>";
             }
         }
 
         req.onerror = function(_) {
-            Browser.console.error("Network error");
+            Browser.document.getElementById("result").innerHTML =
+                "<p>ネットワークエラー</p>";
         }
 
         req.send();
     }
 
     static function displayUser(u:GitHubUser) {
-        var doc = Browser.document;
-
-        doc.body.innerHTML = '
-            <h1>${u.name} (@${u.login})</h1>
-            <img src="${u.avatar_url}" width="120" style="border-radius:60px;">
+        Browser.document.getElementById("result").innerHTML = '
+            <h2>${u.name} (@${u.login})</h2>
+            <img src="${u.avatar_url}" width="120">
             <p>${u.bio}</p>
             <p>Repos: ${u.public_repos}</p>
             <p>Followers: ${u.followers}</p>
