@@ -2,29 +2,6 @@
 (function ($global) { "use strict";
 var Main = function() { };
 Main.main = function() {
-	var username = "frisk-scratch";
-	Main.fetchUser(username);
-};
-Main.fetchUser = function(username) {
-	var url = "https://api.github.com/users/" + username;
-	var req = new XMLHttpRequest();
-	req.open("GET",url,true);
-	req.onload = function(_) {
-		if(req.status == 200) {
-			var data = JSON.parse(req.responseText);
-			Main.displayUser(data);
-		} else {
-			$global.console.error("GitHub API error: " + req.status);
-		}
-	};
-	req.onerror = function(_) {
-		$global.console.error("Network error");
-	};
-	req.send();
-};
-Main.displayUser = function(u) {
-	var doc = window.document;
-	doc.body.innerHTML = "\n            <h1>" + u.name + " (@" + u.login + ")</h1>\n            <img src=\"" + u.avatar_url + "\" width=\"120\" style=\"border-radius:60px;\">\n            <p>" + u.bio + "</p>\n            <p>Repos: " + u.public_repos + "</p>\n            <p>Followers: " + u.followers + "</p>\n            <p>Following: " + u.following + "</p>\n            <a href=\"" + u.html_url + "\" target=\"_blank\">GitHub Profile</a>\n        ";
 };
 var haxe_iterators_ArrayIterator = function(array) {
 	this.current = 0;
@@ -39,4 +16,4 @@ haxe_iterators_ArrayIterator.prototype = {
 	}
 };
 Main.main();
-})(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
+})({});
